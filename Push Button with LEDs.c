@@ -35,7 +35,7 @@ int main(void)
         {
             P1OUT^=0x02;      		// Toggle only LED2 if Switch 2 is Pressed
 
-            for(i=0;i<30000;i++);   // Delay
+            for(i=0;i<30000;i++);       // Delay
         }
     }
 }
