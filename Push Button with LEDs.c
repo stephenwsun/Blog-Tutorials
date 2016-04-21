@@ -1,5 +1,5 @@
 /***********************************************************************************************************************************************************
- * Blink LED
+ * Push Button with LEDs
  * Author: Stephen Sun
  ***********************************************************************************************************************************************************/
 
@@ -8,53 +8,35 @@
 int main(void)
 {
 
-    WDTCTL = WDTPW | WDTHOLD;   // Stop watchdog timer
+    WDTCTL = WDTPW | WDTHOLD;   	// Stop watchdog timer
 
-    volatile int i;   			// Define variable "i" for For Loop
+    volatile int i;   				// Define variable "i" for For Loop
 
-    P1DIR=0x03;   				// Define Bit 0 and Bit 1 of Port 1 as Outputs
+    P1DIR=0x03;   					// Define Bit 0 and Bit 1 of Port 1 as Outputs
 
-    P2DIR = 0x00;				// Define Bit 0 and Bit 1 of Port 2 as Inputs
+    P2DIR = 0x00;					// Define Bit 0 and Bit 1 of Port 2 as Inputs
 
-    P2REN = 0xC0;				// Enable Pull-Up Resistors on P2.6 and P2.7
+    P2REN = 0xC0;					// Enable Pull-Up Resistors on P2.6 and P2.7
 
-    P2OUT = 0xC0;				// Set Pull-Up Resistors to P2.6 and P2.7
+    P2OUT = 0xC0;					// Set Pull-Up Resistors to P2.6 and P2.7
 
-    P1OUT=0x00;  				// Set LEDs off by Default
+    P1OUT=0x00;  					// Set LEDs off by Default
 
     while(1)
     {
-        if((P2IN&0x40)!=0x40)   // check if switch is pressed or not
+        if((P2IN&0x40)!=0x40)   	// Check to see if Switch 1 (P2.6) is Pressed
         {
-            P1OUT^=0x03;      //if pressed toggle the state of led
-            for(i=0;i<30000;i++);  //small delay to counter multiple key press
+            P1OUT^=0x03;      		// Toggle both LEDs if Switch 1 is Pressed
+
+            for(i=0;i<30000;i++);  	// Delay
         }
-        if((P2IN&0x80)!=0x80)   // check if switch is pressed or not
+        
+        if((P2IN&0x80)!=0x80)   	// Check to see if Switch 2 (P2.7) is Pressed
         {
-        	//P1OUT=0X01;
-            P1OUT^=0x02;      //if pressed toggle the state of led
-            for(i=0;i<30000;i++);  //small delay to counter multiple key press
+            P1OUT^=0x02;      		// Toggle only LED2 if Switch 2 is Pressed
+
+            for(i=0;i<30000;i++);   // Delay
         }
     }
 }
-
-
-/*WDTCTL = WDTPW | WDTHOLD;	// Stop watchdog timer
-
-    volatile int i;				// Define variable "i" for For Loop
-
-    P1DIR = 0x03;				// Define Bit 0 and Bit 1 of Port 1 as Output
-
-    P1OUT = 0x00;				// Set Bit 0 and Bit 1 of Port 1 to Zero
-
-    while(1)					// Use a While Loop to loop forever
-    {
-        P1OUT ^= 0x03;			// Toggle Bit 0 and Bit 1 of Port 1
-
-        for(i = 0;i<30000;i++);	// Delay Between Toggle
-    }*/
-
-
-
-
 
