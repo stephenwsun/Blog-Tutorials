@@ -61,7 +61,7 @@ void main(void)
 	// Configure UART Module on USCIA0
 	cnf.moduleName = USCI_A0;
 
-	// Use UART Pins P5.7 and P5.6
+	// Use UART Pins P3.5 and P3.4
 	cnf.portNum = PORT_3;
 	cnf.RxPinNum = PIN5;
 	cnf.TxPinNum = PIN4;
@@ -95,49 +95,28 @@ void main(void)
 	/*********************************/
 
 	__enable_interrupt(); // Enable Global Interrupts
+
 	while(1)
 	{
-		_delay_cycles(100000000);
+		_delay_cycles(100000000);	// 1.25 second delay
 
-		uartSendDataInt(&cnf,(unsigned char *)"set uart mode 0x00\r", strlen("set uart mode 0x00\r"));
+		uartSendDataInt(&cnf,(unsigned char *)"$$$", strlen("$$$"));	// Escape sequence to put the WiFi module into Command mode
 
-		_delay_cycles(100000000);
+		_delay_cycles(100000000);	// 1.25 second delay
 
-		uartSendDataInt(&cnf,(unsigned char *)"$$$", strlen("$$$"));
+		uartSendDataInt(&cnf,(unsigned char *)"set uart mode 0x00\r", strlen("set uart mode 0x00\r"));	// Set UART mode register
 
-		_delay_cycles(100000000);
+		_delay_cycles(100000000);	// 1.25 second delay
 
-		uartSendDataInt(&cnf,(unsigned char *)"scan\r", strlen("scan\r"));
+		uartSendDataInt(&cnf,(unsigned char *)"scan\r", strlen("scan\r"));	// Scan for available networks
 
-		_delay_cycles(100000000);
+		_delay_cycles(100000000);	// 1.25 second delay
 
-		uartSendDataInt(&cnf,(unsigned char *)"join Sun\r", strlen("join Sun\r"));
-		_delay_cycles(10000000);
+		uartSendDataInt(&cnf,(unsigned char *)"join Sun\r", strlen("join Sun\r"));	// Join specified network (e.g. Sun)
+
+		_delay_cycles(10000000);	// 1.25 second delay
+
 		break;
-		/*int bytesAvailable = numUartBytesReceived(&cnf);
-		if(bytesAvailable > 0)
-		{
-			unsigned char tempBuf[100];
-			memset(tempBuf,0,100);
-
-			volatile int bytesRead = readRxBytes(&cnf, tempBuf, bytesAvailable, 0);
-			if(bytesRead == bytesAvailable)
-			{
-				// All requested bytes read. Do something with it.
-
-				// If we receive the letter a, we toggle the LED
-				if(tempBuf[0] == 'a')
-				{
-					//P1OUT ^= BIT0;
-					P1OUT ^= 0x03;
-				}
-			}
-			else
-			{
-				// Couldn't read all the bytes we requested
-				__no_operation();
-			}
-		}*/
 	}
 }
 
