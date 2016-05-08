@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title></title>
+  </head>
+  <body>
+    <a href="home.html">Home</a> / <a href="contact.html">Contact</a> / <a href="about.html">About</a> <br />
+
+    <form>
+      <label>
+        First Name:<input type="text" />
+      </label>
+      <br />
+      <label>
+        Last Name:<input type="text" />
+      </label>
+      <br />
+      <label>
+        Email:<input type="email" />
+      </label>
+      <br />
+      <label>
+        Location:<input type="radio" value="Earth" />Earth<input type="radio" value="Moon" />Moon
+      </label>
+      <br />
+      <label for="questions">Ask Your Questions Here:</label>
+      <br />
+        <textarea id="questions" cols="50" rows="5"></textarea>
+      <br />
+      <button>Submit</button>
+    </form>
+
+    <script>
+  /*********************************************************
+   *
+   *   Test Checkboxes/Radio Buttons Script
+   *
+   *********************************************************/
+   // loop through each form and handle submit event
+   for (var i=0;i<document.forms.length;i++) {
+     var form = document.forms[i];
+     form.addEventListener('submit', function(e){
+       e.preventDefault();
+       var results = '';
+      // loop through all checkboxes to see if checked
+      var checkboxes = form.querySelectorAll("input[type='checkbox']");
+      for(var k = 0; k < checkboxes.length; k++) {
+        results += checkboxes[k].id + '=' + checkboxes[k].checked + '\n';
+      }
+      // loop through all radio butotns to display value
+      var radiobuttons = form.querySelectorAll("input[type='radio']:checked");
+      for(var m = 0; m < radiobuttons.length; m++) {
+        results += radiobuttons[m].name + '=' + radiobuttons[m].value + '\n';
+      }
+      // alert results
+      alert(results);
+    });
+  }
+</script>
+  </body>
+</html>
